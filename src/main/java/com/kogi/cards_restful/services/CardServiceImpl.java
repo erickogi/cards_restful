@@ -8,7 +8,6 @@ import com.kogi.cards_restful.payload.response.MessageResponse;
 import com.kogi.cards_restful.repository.CardRepository;
 import com.kogi.cards_restful.repository.UserRepository;
 import com.kogi.cards_restful.security.jwt.JwtUtils;
-import jakarta.persistence.Id;
 import jakarta.persistence.criteria.Expression;
 import jakarta.persistence.criteria.Predicate;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -3,8 +3,6 @@ package com.kogi.cards_restful.payload.response;
 import com.kogi.cards_restful.models.Card;
 import org.springframework.data.domain.Page;
 
-import java.util.Set;
-
 public class CardsResponse {
   private String message;
   private Page<Card> cards;
