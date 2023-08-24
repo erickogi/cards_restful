@@ -41,6 +41,9 @@ Continue with other API Operations as listed on the swagger Doc
 ##  API Documentation
 
 The API is documented using OpenAPI (Swagger).
+```
+SignUp,SignIn,Create,List,Search,Get One, Patch, Delete
+```
 [REST API docs](http://164.90.185.174:8080/swagger-ui/index.html#/)
 
 ## CopyRight
