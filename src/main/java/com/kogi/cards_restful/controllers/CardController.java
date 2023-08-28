@@ -1,6 +1,8 @@
 package com.kogi.cards_restful.controllers;
 
 import com.kogi.cards_restful.models.Card;
+import com.kogi.cards_restful.payload.request.CardColorFormat;
+import com.kogi.cards_restful.payload.request.CardStatusFormat;
 import com.kogi.cards_restful.payload.request.CreateCardRequest;
 import com.kogi.cards_restful.payload.request.PatchCardRequest;
 import com.kogi.cards_restful.payload.response.CardPage;
@@ -20,6 +22,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
@@ -27,6 +30,7 @@ import java.time.LocalDate;
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/api/card")
+@Validated
 public class CardController {
     @Autowired
     private CardService cardService;
@@ -94,9 +98,9 @@ public class CardController {
             @RequestHeader("Authorization") String authorizationHeader,
             @RequestParam(name = "name", required = false) String name,
             @RequestParam(name = "description", required = false) String description,
-            @RequestParam(name = "color", required = false) String color,
+            @RequestParam(name = "color", required = false) @CardColorFormat  String color,
             @RequestParam(name = "date", required = false) LocalDate date,
-            @RequestParam(name = "status", required = false) String status,
+            @RequestParam(name = "status", required = false)@CardStatusFormat String status,
             Pageable pageable) {
         if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
             String jwtToken = authorizationHeader.substring(7);
