@@ -209,7 +209,6 @@ public class CardController {
      * Used to delete a card.
      * @param authorizationHeader
      * @param id
-     * @param bindingResult
      * @return 200 OK and MessageResponse if the card is deleted successfully, 401 UNAUTHORIZED if the token is invalid. 400 BAD REQUEST if the card is not found because of role
      */
     @Operation(summary = "Delete a Card")
@@ -225,12 +224,8 @@ public class CardController {
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<?> deleteCard(
             @RequestHeader("Authorization") String authorizationHeader,
-            @Valid @PathVariable Long id, BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) {
-            return ResponseEntity
-                    .badRequest()
-                    .body(new RequestValidationErrorResponse("Request Validation errors", bindingResult.getAllErrors()));
-        }
+            @Valid @PathVariable Long id) {
+
         if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
             String jwtToken = authorizationHeader.substring(7);
             return cardService.deleteCard(id, jwtToken);
@@ -240,6 +235,7 @@ public class CardController {
                     .body(new MessageResponse("Invalid token"));
         }
     }
+
 }
 
 
