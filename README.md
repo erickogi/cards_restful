@@ -5,6 +5,7 @@
 
 - [REST API docs](http://164.90.185.174:8080/swagger-ui/index.html#/)
 - [api-docs](http://164.90.185.174:8080/api-docs)
+- [POSTMAN API Collection](https://api.postman.com/collections/12721345-50a53212-73a3-4396-92d7-fd3458453124?access_key=PMAT-01H939M5AH4QYXNGD2RPK5TBPE)
 
 ## Getting started
 
