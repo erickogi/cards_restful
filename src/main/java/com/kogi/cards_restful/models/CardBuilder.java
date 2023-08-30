@@ -1,5 +1,8 @@
 package com.kogi.cards_restful.models;
 
+/**
+ * This class is used to build a card object.
+ */
 public class CardBuilder {
     private String name;
     private String description;
