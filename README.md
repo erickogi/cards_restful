@@ -29,6 +29,11 @@ COPY cards_restful-0.0.1-SNAPSHOT.jar app.jar
 EXPOSE 8080
 CMD ["java", "-jar", "app.jar"]
 ```
+Pulling Docker Image from Docker hub
+
+```
+docker pull erickogi14/kogi:latest
+```
 
 
 Insert Roles into the schema:
@@ -38,12 +43,18 @@ INSERT INTO roles(name) VALUES('ROLE_ADMIN');
 ```
 Continue with other API Operations as listed on the swagger Doc
 
-##  API Documentation
+## HOSTED SERVICE API Documentation
 
 The API is documented using OpenAPI (Swagger).
 ```
 SignUp,SignIn,Create,List,Search,Get One, Patch, Delete
 ```
+
+BASE URL.
+```
+http://164.90.185.174:8080/
+```
+
 [REST API docs](http://164.90.185.174:8080/swagger-ui/index.html#/)
 
 ## CopyRight

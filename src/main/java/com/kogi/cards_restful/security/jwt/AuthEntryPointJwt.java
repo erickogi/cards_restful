@@ -19,6 +19,13 @@ public class AuthEntryPointJwt implements AuthenticationEntryPoint {
 
   private static final Logger logger = LoggerFactory.getLogger(AuthEntryPointJwt.class);
 
+  /**
+   * This method is used to commence an authentication entry point.
+   * @param request
+   * @param response
+   * @param authException
+   * @throws IOException
+   */
   @Override
   public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException)
       throws IOException {

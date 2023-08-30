@@ -26,6 +26,14 @@ public class AuthTokenFilter extends OncePerRequestFilter {
 
   private static final Logger logger = LoggerFactory.getLogger(AuthTokenFilter.class);
 
+  /**
+   * Check and filter credentials.
+   * @param request
+   * @param response
+   * @param filterChain
+   * @throws ServletException
+   * @throws IOException
+   */
   @Override
   protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
       throws ServletException, IOException {
@@ -51,6 +59,11 @@ public class AuthTokenFilter extends OncePerRequestFilter {
     filterChain.doFilter(request, response);
   }
 
+  /**
+   * This method is used to parse a jwt token and get the header from bearer
+   * @param request
+   * @return a jwt token.
+   */
   private String parseJwt(HttpServletRequest request) {
     String headerAuth = request.getHeader("Authorization");
 

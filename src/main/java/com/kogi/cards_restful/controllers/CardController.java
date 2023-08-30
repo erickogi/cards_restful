@@ -1,6 +1,8 @@
 package com.kogi.cards_restful.controllers;
 
 import com.kogi.cards_restful.models.Card;
+import com.kogi.cards_restful.payload.request.CardColorFormat;
+import com.kogi.cards_restful.payload.request.CardStatusFormat;
 import com.kogi.cards_restful.payload.request.CreateCardRequest;
 import com.kogi.cards_restful.payload.request.PatchCardRequest;
 import com.kogi.cards_restful.payload.response.CardPage;
@@ -20,6 +22,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
@@ -27,10 +30,18 @@ import java.time.LocalDate;
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/api/card")
+@Validated
 public class CardController {
     @Autowired
     private CardService cardService;
 
+    /**
+     * Used to create a card.
+     * @param authorizationHeader
+     * @param createCardRequest
+     * @param bindingResult
+     * @return 200 OK and CardResponse if the card is created successfully, 401 UNAUTHORIZED if the token is invalid.
+     */
     @Operation(summary = "Create a Card")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Card created successfully",
@@ -59,6 +70,12 @@ public class CardController {
         }
     }
 
+    /**
+     * Used to list all cards.
+     * @param authorizationHeader
+     * @param pageable
+     * @return 200 OK and CardPage if the cards are listed successfully, 401 UNAUTHORIZED if the token is invalid.
+     */
     @Operation(summary = "List Cards")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "List of Cards accessible to user",
@@ -81,6 +98,17 @@ public class CardController {
         }
     }
 
+    /**
+     * Used to search cards.
+     * @param authorizationHeader
+     * @param name
+     * @param description
+     * @param color
+     * @param date
+     * @param status
+     * @param pageable
+     * @return 200 OK and CardPage if the cards are listed successfully, 401 UNAUTHORIZED if the token is invalid.
+     */
     @Operation(summary = "Cards by name,description,color,date,status. Sorted by any field")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "List of Cards accessible to user filtered and sorted",
@@ -94,9 +122,9 @@ public class CardController {
             @RequestHeader("Authorization") String authorizationHeader,
             @RequestParam(name = "name", required = false) String name,
             @RequestParam(name = "description", required = false) String description,
-            @RequestParam(name = "color", required = false) String color,
+            @RequestParam(name = "color", required = false) @CardColorFormat  String color,
             @RequestParam(name = "date", required = false) LocalDate date,
-            @RequestParam(name = "status", required = false) String status,
+            @RequestParam(name = "status", required = false)@CardStatusFormat String status,
             Pageable pageable) {
         if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
             String jwtToken = authorizationHeader.substring(7);
@@ -108,6 +136,12 @@ public class CardController {
         }
     }
 
+    /**
+     * Used to get a card by its id.
+     * @param authorizationHeader
+     * @param id
+     * @return 200 OK and CardResponse if the card is retrieved successfully, 401 UNAUTHORIZED if the token is invalid. 400 BAD REQUEST if the card is not found because of role
+     */
     @Operation(summary = "Get one card by its ID")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Card object if accessible by User",
@@ -133,6 +167,14 @@ public class CardController {
         }
     }
 
+    /**
+     * Used to update a card.
+     * @param authorizationHeader
+     * @param id
+     * @param partialUpdateDto
+     * @param bindingResult
+     * @return 200 OK and CardResponse if the card is updated successfully, 401 UNAUTHORIZED if the token is invalid. 400 BAD REQUEST if the card is not found because of role
+     */
     @Operation(summary = "Update a Card characteristics")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Card object if accessible by User",
@@ -163,7 +205,13 @@ public class CardController {
                     .body(new MessageResponse("Invalid token"));
         }
     }
-
+    /**
+     * Used to delete a card.
+     * @param authorizationHeader
+     * @param id
+     * @param bindingResult
+     * @return 200 OK and MessageResponse if the card is deleted successfully, 401 UNAUTHORIZED if the token is invalid. 400 BAD REQUEST if the card is not found because of role
+     */
     @Operation(summary = "Delete a Card")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Card object if accessible by User",

@@ -2,7 +2,6 @@ package com.kogi.cards_restful.controllers;
 
 import com.kogi.cards_restful.payload.request.LoginRequest;
 import com.kogi.cards_restful.payload.request.SignupRequest;
-import com.kogi.cards_restful.payload.response.CardResponse;
 import com.kogi.cards_restful.payload.response.JwtResponse;
 import com.kogi.cards_restful.payload.response.MessageResponse;
 import com.kogi.cards_restful.services.AuthService;
@@ -23,6 +22,11 @@ public class AuthController {
     @Autowired
     AuthService authService;
 
+    /**
+     * Used to sign in a user.
+     * @param loginRequest
+     * @return 200 OK and JwtResponse if the user is authenticated successfully, 401 UNAUTHORIZED if the email or password is incorrect.
+     */
     @Operation(summary = "SignIn A User")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Successful Sign In",
@@ -33,6 +37,11 @@ public class AuthController {
         return authService.signIn(loginRequest);
     }
 
+    /**
+     * Used to sign up a user.
+     * @param signUpRequest
+     * @return 200 OK if the user is registered successfully, 400 BAD REQUEST if the email already exists.
+     */
     @Operation(summary = "SignUp A User")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Successful Sign Up",

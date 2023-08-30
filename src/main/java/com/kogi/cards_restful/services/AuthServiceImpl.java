@@ -43,6 +43,11 @@ public class AuthServiceImpl implements AuthService {
     @Autowired
     JwtUtils jwtUtils;
 
+    /***
+     * This method is used to authenticate a user.
+     * @param loginRequest
+     * @return 200 OK and JwtResponse if the user is authenticated successfully, 401 UNAUTHORIZED if the email or password is incorrect.
+     */
     @Override
     public ResponseEntity<?> signIn(LoginRequest loginRequest) {
         Authentication authentication = authenticationManager.authenticate(
@@ -63,6 +68,11 @@ public class AuthServiceImpl implements AuthService {
                 roles));
     }
 
+    /***
+     * This method is used to register a new user.
+     * @param signUpRequest
+     * @return 200 OK if the user is registered successfully, 400 BAD REQUEST if the email already exists.
+     */
     @Override
     public ResponseEntity<?> signUp(SignupRequest signUpRequest) {
         if (userRepository.existsByEmail(signUpRequest.getEmail())) {

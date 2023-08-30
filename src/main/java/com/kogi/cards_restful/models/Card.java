@@ -82,13 +82,19 @@ public class Card {
         this.cardStatus = cardStatus;
     }
 
-    public User getCreator() {
-        return creator;
-    }
-
     public void setCreator(User creator) {
         this.creator = creator;
     }
 
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
 
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public String getCreator() {
+        return creator.getEmail();
+    }
 }

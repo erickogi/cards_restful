@@ -23,6 +23,11 @@ public class JwtUtils {
   @Value("${card_restful.app.jwtExpirationMs}")
   private int jwtExpirationMs;
 
+  /**
+   * This method is used to generate a JWT token.
+   * @param authentication object.
+   * @return a JWT token.
+   */
   public String generateJwtToken(Authentication authentication) {
 
     UserDetailsImpl userPrincipal = (UserDetailsImpl) authentication.getPrincipal();
@@ -34,16 +39,26 @@ public class JwtUtils {
         .signWith(key(), SignatureAlgorithm.HS256)
         .compact();
   }
-  
+
   private Key key() {
     return Keys.hmacShaKeyFor(Decoders.BASE64.decode(jwtSecret));
   }
 
+  /**
+   * This method is used to get a username from a JWT token by getting the claims from the token.
+   * @param token
+   * @return a username.
+   */
   public String getUserNameFromJwtToken(String token) {
     return Jwts.parserBuilder().setSigningKey(key()).build()
                .parseClaimsJws(token).getBody().getSubject();
   }
 
+  /**
+   * This method is used to validate a JWT token.
+   * @param authToken
+   * @return true if the token is valid, false otherwise.
+   */
   public boolean validateJwtToken(String authToken) {
     try {
       Jwts.parserBuilder().setSigningKey(key()).build().parse(authToken);

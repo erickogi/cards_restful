@@ -31,7 +31,10 @@ public class WebSecurityConfig {
   public AuthTokenFilter authenticationJwtTokenFilter() {
     return new AuthTokenFilter();
   }
-  
+  /**
+   * This method is used to configure the authentication provider.
+   * @return an authentication provider.
+   */
   @Bean
   public DaoAuthenticationProvider authenticationProvider() {
       DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
@@ -41,17 +44,30 @@ public class WebSecurityConfig {
    
       return authProvider;
   }
-  
+  /**
+   * This method is used to configure the authentication manager.
+   * @param authConfig
+   * @return an authentication manager.
+   * @throws Exception
+   */
   @Bean
   public AuthenticationManager authenticationManager(AuthenticationConfiguration authConfig) throws Exception {
     return authConfig.getAuthenticationManager();
   }
-
+  /**
+   * This method is used to configure the password encoder.
+   * @return a password encoder.
+   */
   @Bean
   public PasswordEncoder passwordEncoder() {
     return new BCryptPasswordEncoder();
   }
-  
+  /**
+   * This method is used to configure the security filter chain.
+   * @param http
+   * @return a security filter chain.
+   * @throws Exception
+   */
   @Bean
   public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
     http.csrf(AbstractHttpConfigurer::disable)
