@@ -58,6 +58,12 @@ http://164.90.185.174:8080/
 
 [REST API docs](http://164.90.185.174:8080/swagger-ui/index.html#/)
 
+TESTS
+```
+Unit Tests : Controllers & Services
+Integration Tests : Cards Controller
+```
+
 ## CopyRight
 
 Copyright 2023 Kogi. All Rights Reserved.
