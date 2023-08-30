@@ -33,12 +33,21 @@ public class CardServiceImpl implements CardService {
 
     @Autowired
     JwtUtils jwtUtils;
-
+     /**
+     * This method is used to get a user from a jwt token.
+     * @param jwtToken
+     * @return an optional user object.
+     */
     private Optional<User> getUser(String jwtToken) {
         String email = jwtUtils.getUserNameFromJwtToken(jwtToken);
         return userRepository.findByEmail(email);
     }
 
+    /**
+     * This method is used to check if a user is an admin.
+     * @param roles
+     * @return true if the user is an admin, false otherwise.
+     */
     private boolean isAdmin(Set<Role> roles) {
         for (Role role : roles) {
             if (role.getName() == ROLE_ADMIN) {
@@ -47,7 +56,12 @@ public class CardServiceImpl implements CardService {
         }
         return false;
     }
-
+     /**
+     * This method is used to create a card.
+     * @param createCardRequest
+     * @param jwtToken
+     * @return 200 OK with the created card if the card is created successfully, 400 BAD REQUEST if the user does not exist.
+     */
     @Override
     public ResponseEntity<?> createCard(CreateCardRequest createCardRequest, String jwtToken) {
         Optional<User> creator = getUser(jwtToken);
@@ -66,7 +80,12 @@ public class CardServiceImpl implements CardService {
         Card createdCard = cardRepository.save(newCard);
         return ResponseEntity.ok(new CardResponse("Card created successfully!", createdCard));
     }
-
+     /**
+     * This method is used to list cards.
+     * @param pageable
+     * @param jwtToken
+     * @return 200 OK with a list of cards(Can be empty) if the list is successful, 400 BAD REQUEST if the user does not exist.
+     */
     @Override
     public ResponseEntity<?> list(Pageable pageable, String jwtToken) {
         Optional<User> creator = getUser(jwtToken);
@@ -85,6 +104,17 @@ public class CardServiceImpl implements CardService {
         return ResponseEntity.ok(cards);
     }
 
+    /**
+     * This method is used to search cards.
+     * @param pageable
+     * @param jwtToken
+     * @param name
+     * @param description
+     * @param color
+     * @param date
+     * @param status
+     * @return 200 OK with a list of cards(Can be empty) if the search is successful, 400 BAD REQUEST if the user does not exist.
+     */
     @Override
     public ResponseEntity<?> search(Pageable pageable, String jwtToken, String name, String description, String color, LocalDate date, String status) {
         Optional<User> creator = getUser(jwtToken);
@@ -129,6 +159,12 @@ public class CardServiceImpl implements CardService {
         return ResponseEntity.ok(cards);
     }
 
+    /**
+     * This method is used to get a card.
+     * @param id
+     * @param jwtToken
+     * @return 200 OK with card object if the card is found, 404 NOT FOUND if the card does not exist and 400 BAD REQUEST if the user does not exist.
+     */
     @Override
     public ResponseEntity<?> getOne(Long id, String jwtToken) {
         Optional<User> creator = getUser(jwtToken);
@@ -154,6 +190,13 @@ public class CardServiceImpl implements CardService {
         }
     }
 
+    /**
+     * This method is used to update a card.
+     * @param id
+     * @param partialUpdateDto
+     * @param jwtToken
+     * @return 200 OK if the card is updated successfully, 404 NOT FOUND if the card does not exist and 400 BAD REQUEST if the user does not exist.
+     */
     @Override
     public ResponseEntity<?> patchCard(Long id, PatchCardRequest partialUpdateDto, String jwtToken) {
         Optional<User> creator = getUser(jwtToken);
@@ -194,6 +237,12 @@ public class CardServiceImpl implements CardService {
 
     }
 
+    /**
+     * This method is used to delete a card.
+     * @param id
+     * @param jwtToken
+     * @return 200 OK if the card is deleted successfully, 404 NOT FOUND if the card does not exist.
+     */
     @Override
     public ResponseEntity<?> deleteCard(Long id, String jwtToken) {
         Optional<User> creator = getUser(jwtToken);

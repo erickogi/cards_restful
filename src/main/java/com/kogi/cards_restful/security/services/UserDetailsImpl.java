@@ -22,7 +22,13 @@ public class UserDetailsImpl implements UserDetails {
   private String password;
 
   private Collection<? extends GrantedAuthority> authorities;
-
+  /**
+   * This constructor is used to create a UserDetailsImpl object.
+   * @param id
+   * @param email
+   * @param password
+   * @param authorities
+   */
   public UserDetailsImpl(Long id, String email, String password,
       Collection<? extends GrantedAuthority> authorities) {
     this.id = id;
@@ -30,7 +36,11 @@ public class UserDetailsImpl implements UserDetails {
     this.password = password;
     this.authorities = authorities;
   }
-
+  /**
+   * This method is used to build a UserDetailsImpl object from a User object.
+   * @param user
+   * @return a UserDetailsImpl object.
+   */
   public static UserDetailsImpl build(User user) {
     List<GrantedAuthority> authorities = user.getRoles().stream()
         .map(role -> new SimpleGrantedAuthority(role.getName().name()))
@@ -42,7 +52,10 @@ public class UserDetailsImpl implements UserDetails {
         user.getPassword(), 
         authorities);
   }
-
+  /**
+   * This method is used to get the authorities of a user.
+   * @return a collection of authorities.
+   */
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {
     return authorities;
@@ -85,7 +98,11 @@ public class UserDetailsImpl implements UserDetails {
   public boolean isEnabled() {
     return true;
   }
-
+  /**
+   * This method is used to check if two UserDetailsImpl objects are equal.
+   * @param o object to be compared.
+   * @return true if the two objects are equal, false otherwise.
+   */
   @Override
   public boolean equals(Object o) {
     if (this == o)
